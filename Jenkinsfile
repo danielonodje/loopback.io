@@ -9,12 +9,18 @@ def gitEnv = [
 
 env.CHANGE_BRANCH = env.CHANGE_BRANCH ?: env.BRANCH_NAME
 
+properties([
+    // Run every hour
+    pipelineTriggers([cron('H */1 * * *')])
+])
+
 node('linux && git') {
   stage('checkout') {
     checkout scm
   }
   stage('download updates') {
     sh './update-readmes.sh'
+    sh './update-v4-readmes.sh'
     sh './update-lb4-docs.sh'
     sh './update-community-readmes.sh'
   }
