@@ -9,10 +9,6 @@ def gitEnv = [
 
 env.CHANGE_BRANCH = env.CHANGE_BRANCH ?: env.BRANCH_NAME
 
-properties([
-    // Run every hour
-    pipelineTriggers([cron('H */1 * * *')])
-])
 
 node('linux && git') {
   stage('checkout') {
