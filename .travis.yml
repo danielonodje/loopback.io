@@ -5,9 +5,6 @@ node_js:
 os:
   - linux
 
-git:
-  depth: 300
-
 deploy:
   provider: pages
   skip-cleanup: true
@@ -15,18 +12,10 @@ deploy:
   keep-history: true
   on:
     branch: pull-monorepo-docs #for testing purposes
-  include:
-    - stage: copy v2,v3 readmes
-      script: /bin/bash ./update-readmes.sh
-      after_success: skip
-    - stage: copy v4 readmes
-      script: /bin/bash ./update-v4-readmes.sh
-      after_success: skip
-    - stage: copy v4 docs
-      before_script:
-      - npm install
-      script:
-      - npm test
-      after_success:
-      - npm start
+  script:
+    - /bin/bash ./update-readmes.sh
+    - /bin/bash ./update-v4-readmes.sh
+    - npm test
+  email: slnode@ca.ibm.com
+  name: StrongLoop Bot
     
