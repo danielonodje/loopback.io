@@ -6,7 +6,10 @@ const destDocs = path.resolve(__dirname, 'pages/en/lb4');
 const srcSidebars = path.resolve(srcDocs, 'sidebars');
 const destSidebars= path.resolve(__dirname, '_data/sidebars');
 
-
+/**
+ * Utility function to remove a directory.
+ * @param {string} dir - The path of the directory to remove.
+ */
 function removeDir(dir) {
   try {
     fs.removeSync(dir);
@@ -16,18 +19,21 @@ function removeDir(dir) {
     process.exit(1);
   }
 }
-
+/**
+ * Utility function to copy contents of a source directory to
+ * a target directory. If certain files already exist, it will
+ * overwrite them.
+ * @param {string} src - The path of the source directory to copy from.
+ * @param {string} dest - The path of the target directory to copy to.
+ */
 function copyDocs(src, dest) {
   try {
     fs.copySync(src, dest, {overwrite: true});
   } catch (err) {
-    console.error('failed to copy latest docs %s from %s', err.stack, src);
+    console.error('failed to copy latest docs %s from %s', src, err.stack);
     process.exit(1);
   }
 }
-
-// Remove existing LoopBack 4 documentation content
-removeDir(destDocs)
 
 // copy the latest docs from @loopback/docs to pages/en/lb4 directory
 copyDocs(srcDocs, destDocs);
